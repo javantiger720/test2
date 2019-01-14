@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="/booktest/static/booktest/jquery-1.12.4.min.js">
+
+    </script>
+    <script>
+        $(function () {
+            $.get('/booktest/pro/', function (dic) {
+                prov = $('#pro')
+                $.each(dic.data, function (index, item) {
+                    prov.append('<option value="' + item[0] + '" >' + item[1] + '</option>')
+                })
+            })
+
+            $('#pro').change(function () {
+                city = $('#city')
+                city.empty().append('<option value="">请选择市</option>')
+                $('#dis').empty().append('<option value="">请选择区</option>')
+                $.get('/booktest/city/'+$(this).val(),function (lst) {
+                    $.each(lst.data,function (index, item) {
+                        city.append('<option value="' + item['id'] + '" >' + item['title'] + '</option>')
+                    })
+                })
+            });
+
+            $('#city').change(function () {
+                dis = $('#dis')
+                dis.empty()
+                $.get('/booktest/district/'+$(this).val(),function (lst) {
+                    $.each(lst.data,function (index, item) {
+                        dis.append('<option value="' + item['id'] + '" >' + item['title'] + '</option>')
+                    })
+                })
+            });
+        });
+    </script>
+</head>
+<body>
+<select id="pro">
+    <option value="">请选择省</option>
+</select>
+<select id="city">
+    <option value="">请选择市</option>
+</select>
+<select id="dis">
+    <option value="">请选择区</option>
+</select>
+</body>
+</html>
